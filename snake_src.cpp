@@ -18,6 +18,7 @@ class GameSnake {
 public:
   GameSnake();
   void DiplayBorder();
+  void DiplayScore();
   bool GenerateSnakeFood();
   bool BoundryCollisionCheck();
   bool SnakeDirectcionHandle(int input_key);
@@ -48,14 +49,17 @@ GameSnake::GameSnake() {
   SnakeLocationY_ = AxisY_ / 2;
 }
 
+void GameSnake::DiplayScore() { cout << "Game score: " << GameScore_ << endl << endl; }
+
 /*
   @ DiplayBorder()
-  - Displays the area required for snake game.
+    Displays the area required for snake game.
 */
 void GameSnake::DiplayBorder() {
   cout << "\n\n       **** SNAKE GAME ****    ";
   cout << "\n\nUser Name: " << UserName_ << endl;
-
+  system("clear");  // if we do not clear, we see it infinite loop
+  DiplayScore();
   for (int y = 1; y <= AxisY_; y++) {
     for (int x = 1; x <= AxisX_; x++) {
       if ((y == 1 || y == AxisY_) || (x == 1 || x == AxisX_)) {
