@@ -1,4 +1,5 @@
 #include <iostream>
+#include "headerFile/getchInLinux.h"
 using namespace std;
 
 class GameSnake {
@@ -24,6 +25,7 @@ public:
   bool SnakeDirectcionHandle(int input_key);
   bool SnakeFoodCheck();
   void SnakeLengthIncrease();
+  int GetEnteredKey();
 };
 
 /*
@@ -47,6 +49,17 @@ GameSnake::GameSnake() {
   SnakeLength_ = 0;
   SnakeLocationX_ = AxisX_ - (AxisX_ / 4);
   SnakeLocationY_ = AxisY_ / 2;
+}
+
+int GameSnake::GetEnteredKey() {
+  char c;
+  c = getchInLinux();
+  if (c == 27 || c == 91) {// this is just for scan code
+    c = getchInLinux();
+    if (c == 27 || c == 91) // also for scan code
+      c = getchInLinux();
+  }
+  return c;
 }
 
 void GameSnake::DiplayScore() { cout << "Game score: " << GameScore_ << endl << endl; }
@@ -151,7 +164,11 @@ void GameSnake::SnakeLengthIncrease() {
 */
 bool GameSnake::SnakeDirectcionHandle(int input_key) {
   switch (input_key) {
-  case 113:
+  case 81: // 'Q'
+  case 113: // 'q'
+    cout << "End of Game" << endl;
+    cout << "Press 'Enter' to quit the game" << endl;
+    input_key = GetEnteredKey();
     exit(0);
   case 65:
     SnakeDirectionY_--;
@@ -175,9 +192,11 @@ int main() {
   GameSnake GameSnakeInstance;
   GameSnakeInstance.GenerateSnakeFood();
   GameSnakeInstance.DiplayBorder();
+  int input_key = GameSnakeInstance.GetEnteredKey();
   
   while (1) {
     GameSnakeInstance.DiplayBorder();
+    GameSnakeInstance.SnakeDirectcionHandle(input_key);
   }
 
   return 0;
